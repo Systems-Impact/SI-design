@@ -1,0 +1,169 @@
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Systems Impact design system (see DESIGN-SYSTEM.md).
+ * Warm paper background, near-black ink, clay accent, forest emphasis.
+ * Light-only by design: the brand defines no dark surface.
+ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
+  --font-heading: var(--font-instrument-serif);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  /* Brand tokens */
+  --color-paper: var(--paper);
+  --color-paper-warm: var(--paper-warm);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-clay: var(--clay);
+  --color-clay-dark: var(--clay-dark);
+  --color-forest: var(--forest);
+  --color-forest-2: var(--forest-2);
+  --color-glow: var(--glow);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Brand palette (hex from DESIGN-SYSTEM.md) */
+  --paper: #fbf9f4;
+  --paper-warm: #f4efe5;
+  --ink: #141210;
+  --ink-2: #3a3530;
+  --clay: #d6612a;
+  --clay-dark: #9a4419;
+  --forest: #0a4e3f;
+  --forest-2: #236b5c;
+  --glow: #ffe9d5;
+  --line: #e6e1d6;
+  --line-2: #d6cfbe;
+
+  /* shadcn mapping */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-warm);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-warm);
+  --muted-foreground: #8a847b;
+  --accent: var(--paper-warm);
+  --accent-foreground: var(--ink);
+  --destructive: #9a4a4a;
+  --border: var(--line);
+  --input: var(--line-2);
+  --ring: var(--clay);
+  /* Category accents: governance, workflows, information, human, tech */
+  --chart-1: #3a5a8c;
+  --chart-2: #236b5c;
+  --chart-3: #5b4a93;
+  --chart-4: #b9842a;
+  --chart-5: #d6612a;
+  /* radius-lg 12.8px (inner tiles), radius-xl ~18px (cards) */
+  --radius: 0.8rem;
+  --sidebar: var(--paper-warm);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--ink);
+  --sidebar-primary-foreground: var(--paper);
+  --sidebar-accent: var(--glow);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--clay);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    color: var(--ink-2);
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-instrument-serif), Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+}
+
+@layer components {
+  /* Mono uppercase kicker above headings, with leading accent rule */
+  .eyebrow {
+    @apply font-mono uppercase text-clay;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--clay);
+  }
+  /* Italic forest emphasis word inside serif headings */
+  .emph {
+    font-style: italic;
+    color: var(--forest);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

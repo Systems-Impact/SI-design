@@ -1,3 +1,13 @@
 /node_modules
 *.tsbuildinfo
 .DS_Store
+
+# secrets — none expected here, but the rule holds everywhere
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# planning material, never published
+docs/internal/

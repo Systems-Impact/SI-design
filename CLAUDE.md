@@ -32,8 +32,7 @@ No dev server, no tests. To see a change, install the candidate in a consumer.
   `tailwind-merge`, `lucide-react`, `sonner`, `next-themes` — all peer dependencies
 - **Tokens:** `src/tokens.css` — Tailwind v4 `@theme` mapping, `:root` variables, base
   layer, `.eyebrow` / `.emph` classes. Plain CSS, no React needed to consume it
-- **Consumers today:** `SI-platform` (Next), `SI-app-ai-interview` (Next, the app lives in
-  `app-ai-interview/`), `SI-play` (Vite). `website-SI` carries a copy of
+- **Consumers today:** `SI-platform` (Next), `SI-ai-interview` (Next), `SI-play` (Vite). `website-SI` carries a copy of
   `DESIGN-SYSTEM.md` on `main`; its Astro rewrite on `dev` imports `tokens.css`.
   `SI-interview-engine` does not consume this package.
 - **Hosting / data / auth:** none — GitHub is the registry
@@ -68,7 +67,7 @@ No dev server, no tests. To see a change, install the candidate in a consumer.
 ## Guardrails
 
 - Never change a component for one app's need. That's a variant, and it lives in the app.
-- Never tag without checking every consumer: `SI-platform`, `SI-app-ai-interview`,
+- Never tag without checking every consumer: `SI-platform`, `SI-ai-interview`,
   `SI-play`.
 - `website-SI` carries a copy of `DESIGN-SYSTEM.md` (byte-identical as of 2026-09-18).
   Change both in the same commit, or note the drift in `docs/STATUS.md`.

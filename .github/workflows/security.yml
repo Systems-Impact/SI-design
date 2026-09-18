@@ -1,0 +1,66 @@
+# Security CI. Blocks on real findings — a red run means something.
+#
+# Three scanners, no accounts, no tokens, no licence:
+#   gitleaks  secrets anywhere in the history (full clone) and in this push
+#   trivy     known vulnerabilities in dependencies, any lockfile it recognises
+#             (npm, yarn, pnpm, pip, uv, go, …). CRITICAL only, fixable only.
+#   semgrep   code patterns — injection, unsafe calls, hardcoded creds. ERROR only.
+#
+# Deliberately narrow. Widen per repo once it has stayed green for a month:
+# trivy severity CRITICAL,HIGH · semgrep --severity WARNING · add p/owasp-top-ten.
+# The weekly run exists because CVEs land without a commit.
+#
+# Versions are pinned. Bump on purpose, not because a tag moved.
+
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    name: Secrets (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Scan history
+        run: |
+          set -euo pipefail
+          v=8.30.1
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${v}/gitleaks_${v}_linux_x64.tar.gz" | tar -xz gitleaks
+          ./gitleaks git --redact --no-banner --exit-code 1 .
+
+  trivy:
+    name: Dependencies (trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          vuln-type: library
+          severity: CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
+          format: table
+
+  semgrep:
+    name: Code patterns (semgrep)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Scan
+        run: |
+          python3 -m pip install --quiet --user semgrep
+          ~/.local/bin/semgrep scan --config p/default --severity ERROR --error --metrics=off
